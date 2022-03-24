@@ -55,7 +55,12 @@ messaging.on('message', async ({ message }) => {
 
   // send message to that endpoint
   const channel = discord.channels.cache.get(endpoint.thread) as TextChannel
-  await channel.send(message.payload.text)
+
+  if (message.payload.type === 'image') {
+    await channel.send({ content: message.payload.title, files: [message.payload.image] })
+  } else {
+    await channel.send(message.payload.text)
+  }
 
   console.log('received', message)
 })
