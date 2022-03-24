@@ -18,14 +18,14 @@ discord.on('messageCreate', async (message) => {
   }
 
   const conversationId = await messaging.mapEndpoint({
-    channel: 'discord' as any,
+    channel: 'discord',
     identity: '*',
     sender: message.author.id,
     thread: message.channel.id
   })
+  const { userId } = (await messaging.getConversation(conversationId))!
 
-  const conversation = await messaging.getConversation(conversationId)
-  await messaging.createMessage(conversationId, conversation!.userId, { type: 'text', text: message.content })
+  await messaging.createMessage(conversationId, userId, { type: 'text', text: message.content })
 })
 
 messaging.on('message', async ({ message }) => {
@@ -33,9 +33,9 @@ messaging.on('message', async ({ message }) => {
     return
   }
 
-  const endpoint = (await messaging.listEndpoints(message.conversationId)).find((x) => x.channel === 'discord')
+  const [endpoint] = await messaging.listEndpoints(message.conversationId)
 
-  const channel = discord.channels.cache.find((channel) => channel.id === endpoint!.thread) as TextChannel
+  const channel = discord.channels.cache.get(endpoint.thread) as TextChannel
   await channel.send(message.payload.text)
 })
 
