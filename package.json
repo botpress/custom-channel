@@ -10,6 +10,7 @@
     "dev": "ts-node-dev src/index.ts"
   },
   "dependencies": {
+    "@botpress/messaging-client": "^1.1.6",
     "discord.js": "^13.6.0"
   },
   "devDependencies": {
