@@ -10,7 +10,7 @@
     "dev": "ts-node-dev src/index.ts"
   },
   "dependencies": {
-    "@botpress/messaging-client": "^1.1.6",
+    "@botpress/messaging-client": "^1.1.8",
     "discord.js": "^13.6.0",
     "express": "^4.17.3"
   },
